@@ -1,0 +1,10 @@
+FROM leiminghany/basic:0.1
+
+WORKDIR /root
+RUN curl -OL https://golang.google.cn/dl/go1.15.2.linux-amd64.tar.gz
+RUN tar -C /usr/local -xzf go1.15.2.linux-amd64.tar.gz && rm -f go1.15.2.linux-amd64.tar.gz
+ENV PATH=$PATH:/usr/local/go/bin:~/go/bin
+RUN go env -w GO111MODULE=on
+RUN go env -w GOPROXY=https://goproxy.cn,direct
+RUN go get golang.org/x/tools/gopls
+COPY init.toml .SpaceVim.d/ 
