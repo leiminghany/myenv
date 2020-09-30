@@ -14,4 +14,5 @@ RUN apt-get -y install vim
 COPY ./spacevim_install.sh spacevim_install.sh
 RUN git clone https://gitee.com/leman/spacevim.git .SpaceVim
 RUN cat spacevim_install.sh  |bash
-
+RUN curl -LO https://github.com/BurntSushi/ripgrep/releases/download/11.0.2/ripgrep_11.0.2_amd64.deb
+RUN dpkg -i ripgrep_11.0.2_amd64.deb && rm -f ripgrep_11.0.2_amd64.deb
