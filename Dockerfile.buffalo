@@ -1,0 +1,5 @@
+FROM leiminghany/godev:0.1
+
+RUN wget https://github.com/gobuffalo/buffalo/releases/download/v0.16.5/buffalo_0.16.5_Linux_x86_64.tar.gz
+RUN tar -xzf buffalo_0.16.5_Linux_x86_64.tar.gz && rm -f buffalo_0.16.5_Linux_x86_64.tar.gz
+RUN mv buffalo /usr/local/bin/buffalo
