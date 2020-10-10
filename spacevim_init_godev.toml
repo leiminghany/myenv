@@ -15,7 +15,7 @@
     colorscheme_bg = "light"
     # Disable guicolors in basic mode, many terminal do not support 24bit
     # true colors
-    enable_guicolors = false
+    enable_guicolors = true
     # Disable statusline separator, if you want to use other value, please
     # install nerd fonts
     statusline_separator = "nil"
@@ -41,3 +41,5 @@ default_height = 30
 
 [[layers]]
 name = 'lang#go'
+[[layers]]
+name = 'leaderf'

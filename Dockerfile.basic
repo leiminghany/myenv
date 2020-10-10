@@ -3,16 +3,20 @@ FROM ubuntu:18.04
 RUN mv /etc/apt/sources.list /etc/apt/sources.list.bak
 COPY ./sources.list /etc/apt/sources.list
 RUN apt-get update
-RUN apt-get -y install net-tools ssh git wget curl
+RUN apt-get -y install net-tools git wget curl iputils-ping
 RUN apt-get -y install  language-pack-zh-han* asciinema
 RUN apt-get -y install fontconfig
-ENV LANG=zh_CN.UTF8
 
-# install vim editor
 WORKDIR /root
+# install vim editor
 RUN apt-get -y install vim
-COPY ./spacevim_install.sh spacevim_install.sh
+COPY ./spacevim_install.sh ./
 RUN git clone https://gitee.com/leman/spacevim.git .SpaceVim
-RUN cat spacevim_install.sh  |bash
-RUN curl -LO https://github.com/BurntSushi/ripgrep/releases/download/11.0.2/ripgrep_11.0.2_amd64.deb
+RUN cat spacevim_install.sh  |bash && rm -f spacevim_install.sh
+COPY ./ripgrep_11.0.2_amd64.deb ./
 RUN dpkg -i ripgrep_11.0.2_amd64.deb && rm -f ripgrep_11.0.2_amd64.deb
+
+ENV LANG=zh_CN.UTF8
+COPY ./.basic.env ./
+RUN echo source ~/.basic.env >> ~/.bashrc
+RUN echo source /usr/share/bash-completion/completions/git >>~/.bashrc
