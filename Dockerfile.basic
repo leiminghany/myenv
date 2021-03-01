@@ -1,22 +1,23 @@
-FROM ubuntu:18.04
+FROM ubuntu:20.04
 
-RUN mv /etc/apt/sources.list /etc/apt/sources.list.bak
-COPY ./sources.list /etc/apt/sources.list
+# RUN mv /etc/apt/sources.list /etc/apt/sources.list.bak
+# COPY ./sources.list /etc/apt/sources.list
 RUN apt-get update
-RUN apt-get -y install net-tools git wget curl iputils-ping
+RUN apt-get -y install net-tools wget curl iputils-ping
+RUN apt-get -y install git
+RUN echo source /usr/share/bash-completion/completions/git >>~/.bashrc
 RUN apt-get -y install  language-pack-zh-han* asciinema
 RUN apt-get -y install fontconfig
 
 WORKDIR /root
 # install vim editor
 RUN apt-get -y install vim
-COPY ./spacevim_install.sh ./
-RUN git clone https://gitee.com/leman/spacevim.git .SpaceVim
-RUN cat spacevim_install.sh  |bash && rm -f spacevim_install.sh
+ARG DEBIAN_FRONTEND=noninteractive
+RUN apt-get -y install ttf-mscorefonts-installer
+RUN curl -sLf https://spacevim.org/cn/install.sh | bash
 COPY ./ripgrep_11.0.2_amd64.deb ./
 RUN dpkg -i ripgrep_11.0.2_amd64.deb && rm -f ripgrep_11.0.2_amd64.deb
 
 ENV LANG=zh_CN.UTF8
 COPY ./.basic.env ./
 RUN echo source ~/.basic.env >> ~/.bashrc
-RUN echo source /usr/share/bash-completion/completions/git >>~/.bashrc
