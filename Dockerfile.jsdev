@@ -4,6 +4,7 @@ WORKDIR /root
 RUN curl -OL https://nodejs.org/dist/v12.18.4/node-v12.18.4-linux-x64.tar.xz && xz -d node-v12.18.4-linux-x64.tar.xz && tar -C /usr/local -xf node-v12.18.4-linux-x64.tar && rm -f node-v12.18.4-linux-x64.tar
 ENV PATH=$PATH:/usr/local/node-v12.18.4-linux-x64/bin
 COPY spacevim_init_jsdev.toml .SpaceVim.d/init.toml
+COPY myspacevim.vim .SpaceVim.d/autoload/myspacevim.vim
 RUN vim -c SPInstall -c 'sleep 15' -c qa
 RUN npm install yarn -g
 RUN yarn config set registry https://registry.npm.taobao.org --global

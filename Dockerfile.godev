@@ -7,5 +7,6 @@ RUN go env -w GO111MODULE=on
 RUN go env -w GOPROXY=https://goproxy.cn,direct
 RUN go get golang.org/x/tools/gopls
 COPY spacevim_init_godev.toml .SpaceVim.d/init.toml
+COPY myspacevim.vim .SpaceVim.d/autoload/myspacevim.vim
 RUN vim -c SPInstall -c 'sleep 15' -c qa
 RUN vim -c GoInstallBinaries -c 'sleep 15' -c qa
