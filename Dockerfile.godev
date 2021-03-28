@@ -4,9 +4,13 @@ WORKDIR /root
 RUN curl -OL https://golang.google.cn/dl/go1.14.10.linux-amd64.tar.gz && tar -C /usr/local -xzf go1.14.10.linux-amd64.tar.gz && rm -f go1.14.10.linux-amd64.tar.gz
 ENV PATH=$PATH:/usr/local/go/bin:/root/go/bin
 RUN go env -w GO111MODULE=on
+RUN curl -OL https://softmirror.gd2.qingstor.com/code-server_3.9.1_amd64.deb && dpkg -i code-server_3.9.1_amd64.deb && rm -f code-server_3.9.1_amd64.deb
+RUN code-server --install-extension vscodevim.vim golang.go
 RUN go env -w GOPROXY=https://goproxy.cn,direct
-RUN go get golang.org/x/tools/gopls
 COPY spacevim_init_godev.toml .SpaceVim.d/init.toml
+ARG vimproxy
+RUN http_proxy=$vimproxy https_proxy=$vimproxy vim -c SPInstall -c 'sleep 60' -c qa
+RUN vim -c GoInstallBinaries -c qa
 COPY myspacevim.vim .SpaceVim.d/autoload/myspacevim.vim
-RUN vim -c SPInstall -c 'sleep 15' -c qa
-RUN vim -c GoInstallBinaries -c 'sleep 15' -c qa
+
+CMD ["/usr/bin/code-server", "--bind-addr", "0.0.0.0:8080"]
